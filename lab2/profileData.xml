@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/css" href="style.css"?>
+<profileForm>
+    <user>
+        <firstName>Alice</firstName>
+        <lastName>Johnson</lastName>
+        <interests>Reading, Hiking</interests>
+        <music>Jazz, Classical</music>
+        <movies>Sci-Fi, Drama</movies>
+        <literature>Mystery, Fantasy</literature>
+        <avatar>alice_photo.jpg</avatar>
+    </user>
+    
+    <user>
+        <firstName>Bob</firstName>
+        <lastName>Williams</lastName>
+        <interests>Cooking, Gaming</interests>
+        <music>Rock, Pop</music>
+        <movies>Action, Comedy</movies>
+        <literature>Historical, Fiction</literature>
+        <avatar>bob_avatar.png</avatar>
+    </user>
+</profileForm>

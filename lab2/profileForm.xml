@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="profileForm.xsl"?>
+<profileForm>
+    <form>
+        <field>
+            <label>Name:</label>
+            <input type="text" name="name"/>
+        </field>
+
+        <field>
+            <label>Interests:</label>
+            <input type="text" name="interests"/>
+        </field>
+
+        <field>
+            <label>Music:</label>
+            <input type="text" name="music"/>
+        </field>
+
+        <field>
+            <label>Movies:</label>
+            <input type="text" name="movies"/>
+        </field>
+
+        <field>
+            <label>Literature:</label>
+            <input type="text" name="literature"/>
+        </field>
+
+        <field>
+            <label>Photo avatar:</label>
+            <input type="file" name="avatar"/>
+        </field>
+
+        <button>Sign In</button>
+    </form>
+</profileForm>
