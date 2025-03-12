@@ -7,13 +7,13 @@
         <html>
             <head>
                 <title>Profile Form</title>
-                <link rel="stylesheet" type="text/css" href="part1.css"/>
+                <link rel="stylesheet" type="text/css" href="profileForm.css"/>
             </head>
             <body>
                 <div id="profileForm">
                     <form>
                         <xsl:apply-templates select="profileForm/form/field"/>
-                        <button type="button">Sign In</button> <!-- Decorative Button -->
+                        <button type="button">Sign In</button> 
                     </form>
                 </div>
             </body>
