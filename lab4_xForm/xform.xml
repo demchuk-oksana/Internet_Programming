@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:xf="http://www.w3.org/2002/xforms"
+      xmlns:ev="http://www.w3.org/2001/xml-events">
+<head>
+    <title>Profile Forms with XForms</title>
+    
+    <!-- XForms Model - Defines the data structure -->
+    <xf:model id="profile-model">
+        <!-- Main instance for the form data -->
+        <xf:instance id="profile-data">
+            <data xmlns="">
+                <profile>
+                    <id></id>
+                    <timestamp></timestamp>
+                    <username></username>
+                    <hobbies></hobbies>
+                    <music></music>
+                    <movies></movies>
+                    <literature></literature>
+                </profile>
+                <status>new</status> <!-- new, editing, submitted, saved -->
+                <currentEditId></currentEditId>
+            </data>
+        </xf:instance>
+
+        <!-- Instance to store saved forms -->
+        <xf:instance id="saved-forms">
+            <data xmlns="">
+                <forms>
+                    <!-- Sample saved form structure -->
+                    <!--
+                    <form>
+                        <id>123456</id>
+                        <timestamp>2025-04-09T12:00:00</timestamp>
+                        <username>JohnDoe</username>
+                        <hobbies>Reading</hobbies>
+                        <music>Classical</music>
+                        <movies>Sci-Fi</movies>
+                        <literature>Fantasy</literature>
+                    </form>
+                    -->
+                </forms>
+            </data>
+        </xf:instance>
+
+        <!-- Instance to store submitted forms -->
+        <xf:instance id="submitted-forms">
+            <data xmlns="">
+                <forms>
+                    <!-- Sample submitted form structure -->
+                    <!--
+                    <form>
+                        <id>654321</id>
+                        <timestamp>2025-04-08T15:30:00</timestamp>
+                        <username>JaneSmith</username>
+                        <hobbies>Cooking</hobbies>
+                        <music>Jazz</music>
+                        <movies>Drama</movies>
+                        <literature>Poetry</literature>
+                    </form>
+                    -->
+                </forms>
+            </data>
+        </xf:instance>
+
+        <!-- Bind validation rules -->
+        <xf:bind nodeset="profile/username" required="true()"/>
+        <xf:bind nodeset="profile/id" calculate="if(. = '', concat('id-', now()), .)"/>
+        <xf:bind nodeset="profile/timestamp" calculate="now()"/>
+
+        <!-- Initialize from storage on load -->
+        <xf:action ev:event="xforms-ready">
+            <xf:setvalue ref="profile/id" value="concat('id-', now())"/>
+            <xf:setvalue ref="profile/timestamp" value="now()"/>
+        </xf:action>
+
+        <!-- Submission for saving a form -->
+        <xf:submission id="save-form" method="post" resource="save-process" replace="none">
+            <xf:action ev:event="xforms-submit-done">
+                <xf:message>Form saved successfully!</xf:message>
+                <xf:reset model="profile-model"/>
+                <xf:setvalue ref="status">new</xf:setvalue>
+                <xf:setvalue ref="currentEditId"></xf:setvalue>
+            </xf:action>
+        </xf:submission>
+
+        <!-- Submission for submitting a form -->
+        <xf:submission id="submit-form" method="post" resource="submit-process" replace="none">
+            <xf:action ev:event="xforms-submit-done">
+                <xf:message>Form submitted successfully!</xf:message>
+                <xf:reset model="profile-model"/>
+                <xf:setvalue ref="status">new</xf:setvalue>
+                <xf:setvalue ref="currentEditId"></xf:setvalue>
+            </xf:action>
+        </xf:submission>
+    </xf:model>
+</head>
+<body>
+    <div class="text_block">
+        <h1 class="header">Profile Forms</h1>
+        
+        <!-- Forms List Section -->
+        <div class="forms-container">
+            <h2 class="header">Submitted & Saved Forms</h2>
+            <div id="forms-list">
+                <!-- Show message if no forms exist -->
+                <xf:output value="if(count(instance('saved-forms')/forms/*) + count(instance('submitted-forms')/forms/*) = 0, 'No forms have been submitted or saved yet.', '')"/>
+
+                <!-- Repeat over saved forms -->
+                <xf:repeat id="saved-form-repeat" nodeset="instance('saved-forms')/forms/form">
+                    <div class="form-card saved">
+                        <span class="saved-badge">Saved</span>
+                        <div class="form-content">
+                            <span class="form-label">Username:</span>
+                            <xf:output ref="username"/>
+                            
+                            <span class="form-label">Hobbies:</span>
+                            <xf:output ref="hobbies" value="if(. = '', 'N/A', .)"/>
+                            
+                            <span class="form-label">Music:</span>
+                            <xf:output ref="music" value="if(. = '', 'N/A', .)"/>
+                            
+                            <span class="form-label">Movies:</span>
+                            <xf:output ref="movies" value="if(. = '', 'N/A', .)"/>
+                            
+                            <span class="form-label">Literature:</span>
+                            <xf:output ref="literature" value="if(. = '', 'N/A', .)"/>
+                            
+                            <span class="form-label">Created:</span>
+                            <xf:output ref="timestamp"/>
+                        </div>
+                        <div class="form-actions">
+                            <xf:trigger appearance="minimal" class="action-btn edit-btn">
+                                <xf:label>Edit</xf:label>
+                                <xf:action ev:event="DOMActivate">
+                                    <xf:setvalue ref="instance('profile-data')/currentEditId" value="id"/>
+                                    <xf:setvalue ref="instance('profile-data')/status">editing</xf:setvalue>
+                                    <xf:setvalue ref="instance('profile-data')/profile/username" value="username"/>
+                                    <xf:setvalue ref="instance('profile-data')/profile/hobbies" value="hobbies"/>
+                                    <xf:setvalue ref="instance('profile-data')/profile/music" value="music"/>
+                                    <xf:setvalue ref="instance('profile-data')/profile/movies" value="movies"/>
+                                    <xf:setvalue ref="instance('profile-data')/profile/literature" value="literature"/>
+                                    <xf:setvalue ref="instance('profile-data')/profile/id" value="id"/>
+                                </xf:action>
+                            </xf:trigger>
+                            <xf:trigger appearance="minimal" class="action-btn delete-btn">
+                                <xf:label>Delete</xf:label>
+                                <xf:action ev:event="DOMActivate">
+                                    <xf:delete nodeset="." at="index('saved-form-repeat')"/>
+                                </xf:action>
+                            </xf:trigger>
+                        </div>
+                    </div>
+                </xf:repeat>
+
+                <!-- Repeat over submitted forms -->
+                <xf:repeat id="submitted-form-repeat" nodeset="instance('submitted-forms')/forms/form">
+                    <div class="form-card">
+                        <div class="form-content">
+                            <span class="form-label">Username:</span>
+                            <xf:output ref="username"/>
+                            
+                            <span class="form-label">Hobbies:</span>
+                            <xf:output ref="hobbies" value="if(. = '', 'N/A', .)"/>
+                            
+                            <span class="form-label">Music:</span>
+                            <xf:output ref="music" value="if(. = '', 'N/A', .)"/>
+                            
+                            <span class="form-label">Movies:</span>
+                            <xf:output ref="movies" value="if(. = '', 'N/A', .)"/>
+                            
+                            <span class="form-label">Literature:</span>
+                            <xf:output ref="literature" value="if(. = '', 'N/A', .)"/>
+                            
+                            <span class="form-label">Created:</span>
+                            <xf:output ref="timestamp"/>
+                        </div>
+                        <div class="form-actions">
+                            <xf:trigger appearance="minimal" class="action-btn view-btn">
+                                <xf:label>View</xf:label>
+                                <xf:action ev:event="DOMActivate">
+                                    <xf:message>Form Details: Username: <xf:output ref="username"/>, Hobbies: <xf:output ref="hobbies"/>, Music: <xf:output ref="music"/>, Movies: <xf:output ref="movies"/>, Literature: <xf:output ref="literature"/></xf:message>
+                                </xf:action>
+                            </xf:trigger>
+                            <xf:trigger appearance="minimal" class="action-btn delete-btn">
+                                <xf:label>Delete</xf:label>
+                                <xf:action ev:event="DOMActivate">
+                                    <xf:delete nodeset="." at="index('submitted-form-repeat')"/>
+                                </xf:action>
+                            </xf:trigger>
+                        </div>
+                    </div>
+                </xf:repeat>
+            </div>
+        </div>
+        
+        <!-- Form Section -->
+        <h2 class="header">
+            <xf:output value="if(instance('profile-data')/status = 'editing', 'Edit Profile', 'Create New Profile')"/>
+        </h2>
+        
+        <xf:group ref="profile">
+            <div>
+                <xf:input ref="username" class="input_field">
+                    <xf:label class="text">Username:</xf:label>
+                    <xf:alert>Username is required</xf:alert>
+                </xf:input>
+            </div>
+
+            <h3 class="header">My Favorite:</h3>
+            
+            <div>
+                <xf:input ref="hobbies" class="input_field">
+                    <xf:label class="text">Hobbies:</xf:label>
+                </xf:input>
+            </div>
+
+            <div>
+                <xf:input ref="music" class="input_field">
+                    <xf:label class="text">Music:</xf:label>
+                </xf:input>
+            </div>
+            
+            <div>
+                <xf:input ref="movies" class="input_field">
+                    <xf:label class="text">Movies:</xf:label>
+                </xf:input>
+            </div>
+            
+            <div>
+                <xf:input ref="literature" class="input_field">
+                    <xf:label class="text">Literature:</xf:label>
+                </xf:input>
+            </div>
+
+            <div style="text-align:center;">
+                <xf:submit submission="save-form" class="button">
+                    <xf:label>Save</xf:label>
+                </xf:submit>
+                
+                <xf:submit submission="submit-form" class="button">
+                    <xf:label>Submit</xf:label>
+                </xf:submit>
+                
+                <xf:trigger class="button">
+                    <xf:label>Reset</xf:label>
+                    <xf:action ev:event="DOMActivate">
+                        <xf:reset model="profile-model"/>
+                        <xf:setvalue ref="../status">new</xf:setvalue>
+                    </xf:action>
+                </xf:trigger>
+                
+                <xf:trigger ref="if(../status = 'editing', ., '')" class="button">
+                    <xf:label>Cancel Edit</xf:label>
+                    <xf:action ev:event="DOMActivate">
+                        <xf:reset model="profile-model"/>
+                        <xf:setvalue ref="../status">new</xf:setvalue>
+                        <xf:setvalue ref="../currentEditId"></xf:setvalue>
+                    </xf:action>
+                </xf:trigger>
+            </div>
+        </xf:group>
+    </div>
+</body>
+</html>
