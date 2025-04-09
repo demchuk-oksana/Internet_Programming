@@ -1,28 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title> Profile Form </title> 
-        <link rel="stylesheet" href="style.css">
-        <script src="script.js"></script>
-    </head>
-    <body>
-        <div class="text_block" >
-            <div class="header">
-                Profile Form
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Forms</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="text_block">
+        <div class="header">
+            Profile Forms
+        </div>
+        
+        <!-- Forms List Section -->
+        <div class="forms-container">
+            <div class="header" style="font-size: 25px;">
+                Submitted & Saved Forms
             </div>
-
-            <form>
+            <div id="forms-list" style="text-align:left; width: 90%; margin: 0 auto; flex-direction: column;">
+                <div class="no-forms">No forms have been submitted or saved yet.</div>
+            </div>
+        </div>
+        
+        <!-- Form Section -->
+        <div class="header" style="font-size: 25px;">
+            Create New Profile
+        </div>
+        
+        <form id="profile-form">
             <div>
                 <div class="text" style="display: inline;">
                     Username: 
                 </div>
-                <input type="text" class="input_field" name="username" id="username">
+                <input type="text" class="input_field" name="username" id="username" required>
             </div>
 
-            <div class="header" style = "font-size: 23px;text-align:center;">
-                My Favoutite:
+            <div class="header" style="font-size: 23px;text-align:center;">
+                My Favorite:
             </div>
             
             <div>
@@ -44,22 +58,23 @@
                     Movies: 
                 </div>
                 <input type="text" class="input_field" name="movies">
-             </div>
-             <div>
-
+            </div>
+            <div>
                 <div class="text" style="display: inline;">
                     Literature:
                 </div>
                 <input type="text" class="input_field" name="literature">
-             </div>
+            </div>
 
-             <div style="text-align:center;" >
-                <input type="submit" class="button" id="submit" > 
-                <input type="reset" class="button">
-             </div>
-
-           </form>
-        </div>
-        <script src="script.js"></script>
-    </body>
+            <div style="text-align:center;">
+                <input type="button" class="button" id="save-btn" value="Save"> 
+                <input type="submit" class="button" id="submit-btn" value="Submit">
+                <input type="reset" class="button" value="Reset">
+                <input type="button" class="button" id="cancel-btn" value="Cancel Edit" style="display: none;">
+            </div>
+        </form>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
 </html>
