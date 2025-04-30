@@ -28,7 +28,6 @@
         <xf:instance id="saved-forms">
             <data xmlns="">
                 <forms>
-                    <!-- Sample saved form structure -->
                     <!--
                     <form>
                         <id>123456</id>
@@ -48,7 +47,6 @@
         <xf:instance id="submitted-forms">
             <data xmlns="">
                 <forms>
-                    <!-- Sample submitted form structure -->
                     <!--
                     <form>
                         <id>654321</id>
@@ -102,7 +100,7 @@
         
         <!-- Forms List Section -->
         <div class="forms-container">
-            <h2 class="header">Submitted & Saved Forms</h2>
+            <h2 class="header">Submitted &amp; Saved Forms</h2>
             <div id="forms-list">
                 <!-- Show message if no forms exist -->
                 <xf:output value="if(count(instance('saved-forms')/forms/*) + count(instance('submitted-forms')/forms/*) = 0, 'No forms have been submitted or saved yet.', '')"/>
