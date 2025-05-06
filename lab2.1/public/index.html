@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Forms</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="text_block">
+        <div class="header">
+            Profile Forms
+        </div>
+        
+        <!-- Forms List Section -->
+        <div class="forms-container">
+            <div class="header" style="font-size: 25px;">
+                Submitted & Saved Forms
+            </div>
+            <div id="forms-list" style="text-align:left; width: 90%; margin: 0 auto; flex-direction: column;">
+                <div class="no-forms">No forms have been submitted or saved yet.</div>
+            </div>
+        </div>
+        
+        <!-- Form Section -->
+        <div class="header" style="font-size: 25px;">
+            Create New Profile
+        </div>
+        
+        <form id="profile-form">
+            <div>
+                <div class="text" style="display: inline;">
+                    Username: 
+                </div>
+                <input type="text" class="input_field" name="username" id="username" required>
+            </div>
+
+            <div class="header" style="font-size: 23px;text-align:center;">
+                My Favorite:
+            </div>
+            
+            <div>
+                <div class="text" style="display: inline;">
+                    Hobbies:
+                </div>
+                <input type="text" class="input_field" name="hobbies">
+            </div>
+
+            <div>
+                <div class="text" style="display: inline;">
+                    Music:
+                </div>
+                <input type="text" class="input_field" name="music">
+            </div>
+            
+            <div>
+                <div class="text" style="display: inline;">
+                    Movies: 
+                </div>
+                <input type="text" class="input_field" name="movies">
+            </div>
+            <div>
+                <div class="text" style="display: inline;">
+                    Literature:
+                </div>
+                <input type="text" class="input_field" name="literature">
+            </div>
+
+            <div style="text-align:center;">
+                <input type="button" class="button" id="save-btn" value="Save"> 
+                <input type="submit" class="button" id="submit-btn" value="Submit">
+                <input type="reset" class="button" value="Reset">
+                <input type="button" class="button" id="cancel-btn" value="Cancel Edit" style="display: none;">
+            </div>
+        </form>
+    </div>
+    
+    <script src="js/script.js"></script>
+</body>
+</html>
