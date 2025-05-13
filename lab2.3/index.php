@@ -25,6 +25,16 @@ if (isset($_SESSION['currentAnswer'])) $currentAnswer = $_SESSION['currentAnswer
 if (isset($_SESSION['message'])) $message = $_SESSION['message'];
 if (isset($_SESSION['showHint'])) $showHint = $_SESSION['showHint'];
 
+// Check if the message should be reset
+if (isset($_SESSION['message_timestamp'])) {
+    $messageTimeout = 2; // Message display time in seconds
+    if (time() - $_SESSION['message_timestamp'] > $messageTimeout) {
+        $message = '';
+        unset($_SESSION['message']);
+        unset($_SESSION['message_timestamp']);
+    }
+}
+
 // Function to generate a new math problem
 function generateProblem($range, $operations) {
     if (empty($operations)) {
@@ -109,6 +119,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $message = "Wrong! Try again.";
         }
+        
+        // Set the message timestamp for auto-expiry
+        $_SESSION['message_timestamp'] = time();
     }
 
     // Handle hint request
@@ -152,6 +165,10 @@ $_SESSION['showHint'] = $showHint;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mathematical trainer</title> 
     <link rel="stylesheet" href="style.css">
+    <!-- Add meta refresh to automatically reload the page and clear the message -->
+    <?php if (!empty($message)): ?>
+    <meta http-equiv="refresh" content="2;url=<?php echo $_SERVER['PHP_SELF']; ?>">
+    <?php endif; ?>
 </head>
 <body>
     <div class="text_block">
